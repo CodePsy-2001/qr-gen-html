@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script type="module">
+    import QRCode from 'https://esm.sh/qrcode';
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const content = params.get('content');
+
+      if (content) {
+        const canvas = document.getElementById('qrcode-canvas');
+        QRCode.toCanvas(canvas, content, { width: 160, height: 160 }, function (error) {
+          if (error) console.error(error);
+          console.log('QR code generated!');
+        });
+      } else {
+        document.getElementById('input-container').style.display = 'block';
+        const generateButton = document.getElementById('generate-button');
+        generateButton.addEventListener('click', () => {
+          const userInput = document.getElementById('user-input').value;
+          if (userInput) {
+            const canvas = document.getElementById('qrcode-canvas');
+            QRCode.toCanvas(canvas, userInput, { width: 160, height: 160 }, function (error) {
+              if (error) console.error(error);
+              console.log('QR code generated!');
+            });
+          }
+        });
+      }
+    });
+  </script>
+</head>
+<body style="background: black; color: white;">
+  <div id="input-container" style="display: none;">
+    <input type="text" id="user-input" placeholder="Enter content for QR Code">
+    <button id="generate-button">Generate QR Code</button>
+  </div>
+  <canvas id="qrcode-canvas" width="160" height="160" style="border: 1px solid black;"></canvas>
+</body>
+</html>
