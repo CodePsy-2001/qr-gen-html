@@ -4,6 +4,7 @@ A simple, efficient web page to quickly generate QR codes. Add content via URL o
 
 ```
 https://qr-gen.vercel.app?content=YourContentHere
+
 # or if you deploy it yourself:
 https://yourdomain.com?content=YourContentHere
 ```
@@ -34,6 +35,7 @@ QR 코드를 빠르게 생성할 수 있는 간단하고 효율적인 웹 페이
 
 ```
 https://qr-gen.vercel.app?content=YourContentHere
+
 # or if you deploy it yourself:
 https://yourdomain.com?content=YourContentHere
 ```
