@@ -17,7 +17,13 @@ https://yourdomain.com?content=YourContentHere
 Perfect for when you need a straightforward, no-nonsense QR code generator.
 *Sometimes fewer features are more convenient.*
 
+
+
+
 ---
+
+
+
 
 # QR 코드 생성기
 
