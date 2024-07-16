@@ -5,7 +5,7 @@ A simple, efficient web page to quickly generate QR codes.
 Add content via URL or input field.
 
 ```
-https://qr-gen.vercel.app?content=YourContentHere
+https://qr-gen-html.vercel.app?content=YourContentHere
 ```
 or if you deploy it yourself:
 ```
