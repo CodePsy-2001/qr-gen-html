@@ -1,15 +1,5 @@
-# QR Code Generator
-
-A simple, efficient web page to quickly generate QR codes.
-
-Add content via URL or input field.
+# QR Code Generator for Candypay
 
 ```
-https://qr-gen-html.vercel.app?content=YourContentHere
+https://qr-gen-candypay.vercel.app?account_id=your_account_id&tables=max_table_number
 ```
-or if you deploy it yourself:
-```
-https://yourdomain.com?content=YourContentHere
-```
-
-*Sometimes fewer features are more convenient.*
