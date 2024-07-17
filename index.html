@@ -6,38 +6,68 @@
   <title>QR Code Generator</title>
   <script type="module">
     import QRCode from 'https://esm.sh/qrcode';
+    
+    function downloadCanvas(canvas, filename) {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = filename;
+      link.click();
+    }
+
+    function createQRCode(content, canvasId) {
+      const canvas = document.getElementById(canvasId);
+      QRCode.toCanvas(canvas, content, { width: 160, height: 160 }, function (error) {
+        if (error) console.error(error);
+        console.log(`QR code generated for: ${content}`);
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
-      const content = params.get('content');
+      const accountId = params.get('account_id');
+      const tables = parseInt(params.get('tables'), 10);
 
-      if (content) {
-        const canvas = document.getElementById('qrcode-canvas');
-        QRCode.toCanvas(canvas, content, { width: 160, height: 160 }, function (error) {
-          if (error) console.error(error);
-          console.log('QR code generated!');
-        });
+      const guide = document.getElementById('guide');
+      const qrContainer = document.getElementById('qrcode-container');
+      const downloadBtn = document.getElementById('download-btn');
+
+      if (accountId && !isNaN(tables)) {
+        guide.style.display = 'none';
+        for (let i = 0; i <= tables; i++) {
+          const content = `candypay://market/info/${accountId}?table=${i}`;
+          const canvasId = `qrcode-canvas-${i}`;
+          const canvas = document.createElement('canvas');
+          canvas.id = canvasId;
+          canvas.width = 160;
+          canvas.height = 160;
+          canvas.style.border = '1px solid black';
+          canvas.style.margin = '10px';
+          qrContainer.appendChild(canvas);
+          createQRCode(content, canvasId);
+        }
       } else {
-        document.getElementById('input-container').style.display = 'block';
-        const generateButton = document.getElementById('generate-button');
-        generateButton.addEventListener('click', () => {
-          const userInput = document.getElementById('user-input').value;
-          if (userInput) {
-            const canvas = document.getElementById('qrcode-canvas');
-            QRCode.toCanvas(canvas, userInput, { width: 160, height: 160 }, function (error) {
-              if (error) console.error(error);
-              console.log('QR code generated!');
-            });
-          }
-        });
+        guide.style.display = 'block';
+        qrContainer.style.display = 'none';
+        downloadBtn.style.display = 'none';
       }
+
+      downloadBtn.addEventListener('click', () => {
+        for (let i = 0; i <= tables; i++) {
+          const canvasId = `qrcode-canvas-${i}`;
+          const canvas = document.getElementById(canvasId);
+          const filename = `qrcode_${accountId}_table_${i}.png`;
+          downloadCanvas(canvas, filename);
+        }
+      });
     });
   </script>
 </head>
-<body style="background: black; color: white;">
-  <div id="input-container" style="display: none;">
-    <input type="text" id="user-input" placeholder="Enter content for QR Code">
-    <button id="generate-button">Generate QR Code</button>
+<body style="background: black; color: white; text-align: center;">
+  <div id="guide" style="display: none; margin: 20px;">
+    <p>Please provide the URL parameters <code>account_id</code> and <code>tables</code>.</p>
+    <p>Example: <code>?account_id=your_account_id&tables=3</code></p>
   </div>
-  <canvas id="qrcode-canvas" width="160" height="160" style="border: 1px solid black;"></canvas>
+  <div id="qrcode-container" style="display: flex; flex-wrap: wrap; justify-content: center;"></div>
+  <button id="download-btn" style="display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px;">Download All QR Codes</button>
 </body>
 </html>
